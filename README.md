@@ -20,9 +20,9 @@
 
 ---
 
-## 📌 Project Description
+## Project Description
 
-**Kratos** (derived from the Greek concept of strength and power) is an automated security pipeline that secures software dependencies from code to deployment. By scanning GitHub repositories, it generates a standardized Software Bill of Materials (SBOM) and cross-references dependencies against live vulnerability databases (OSV.dev/NVD).
+**Kratos** is an automated security pipeline that secures software dependencies from code to deployment. By scanning GitHub repositories, it generates a standardized Software Bill of Materials (SBOM) and cross-references dependencies against live vulnerability databases (OSV.dev/NVD).
 
 Unlike traditional scanners that generate excessive noise, Kratos combines **AST static reachability analysis** with an **XGBoost ML risk scoring model** to prioritize only actionable threats based on actual code execution and environmental exposure. It also leverages an **Isolation Forest model** to detect supply chain anomalies (such as hijacked packages or sudden maintainer shifts) and uses a **pluggable LLM engine** to deliver plain-English explanations, confidence scores, and automated patch recommendations directly to developers.
 
