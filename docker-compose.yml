@@ -1,25 +1,38 @@
 services:
 
-  mysql:
-    image: mysql:8.0
-    container_name: codebase_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: nandy123
-      MYSQL_DATABASE: codebase_index
-    ports:
-       - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  db:
+    image: postgres:16
+    container_name: codebase-db
 
-  qdrant:
-    image: qdrant/qdrant
-    container_name: codebase_qdrant
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: codebase
+
     ports:
-      - "6333:6333"
+      - "5432:5432"
+
     volumes:
-      - qdrant_data:/qdrant/storage
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: codebase-backend
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/codebase
+      SECRET_KEY: change-this-to-a-long-random-secret
+      ACCESS_TOKEN_EXPIRE_MINUTES: 60
+      FRONTEND_URL: http://localhost:5173
+      GOOGLE_CLIENT_ID: 173092224038-9p980u25gj0ihdbe46m2gru3rrs7ojgo.apps.googleusercontent.com
+
+    depends_on:
+      - db
 
 volumes:
-  mysql_data:
-  qdrant_data:
+  postgres_data:
